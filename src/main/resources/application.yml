@@ -1,3 +1,11 @@
 micronaut:
   application:
     name: propertyNaming
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:openapi
+        mapping: /swagger/**
+      rapidoc:
+        paths: classpath:openapi/views/rapidoc
+        mapping: /docs/**

@@ -1,0 +1,71 @@
+openapi: 3.0.1
+info:
+  title: property-naming
+  version: "0.0"
+paths:
+  /send:
+    post:
+      summary: Sends an email.
+      description: This resource sends an email to the provided recipient(s).
+      operationId: sendEmails
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailMessage'
+        required: true
+      responses:
+        "200":
+          description: sendEmails 200 response
+components:
+  schemas:
+    EmailContact:
+      type: object
+    EmailMessage:
+      required:
+      - emailId
+      - from
+      - subject
+      - to
+      type: object
+      properties:
+        bcc:
+          maxItems: 100
+          type: array
+          description: List of recipients to receive a blind carbon copy
+          items:
+            $ref: '#/components/schemas/EmailContact'
+        cc:
+          maxItems: 100
+          type: array
+          description: List of recipients to receive a carbon copy
+          items:
+            $ref: '#/components/schemas/EmailContact'
+        emailId:
+          minimum: 0
+          type: integer
+          description: Unique identifier of the email being sent.
+          format: int64
+        from:
+          $ref: '#/components/schemas/EmailContact'
+        headers:
+          maxItems: 100
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: Map of headers for the email message.
+        htmlContent:
+          type: string
+          description: HTML content of the email.
+        subject:
+          maxLength: 255
+          type: string
+          description: Subject of the email.
+        textContent:
+          type: string
+          description: Plain text content of the email.
+        to:
+          $ref: '#/components/schemas/EmailContact'
